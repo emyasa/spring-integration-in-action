@@ -13,10 +13,10 @@ public class IntegrationTest {
 
     @Autowired
     @Qualifier("helloGateway")
-    private HelloService helloService;
+    private GatewayService gatewayService;
 
     @Test
     public void sayHelloWorld() {
-        System.out.println(helloService.sayHello("World"));
+        System.out.println(gatewayService.sayHello("World"));
     }
 }
