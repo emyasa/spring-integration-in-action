@@ -1,4 +1,4 @@
-package com.emyasa.spring.integration.java.ch1p2;
+package com.emyasa.spring.integration.xml.ch1p2;
 
 import org.springframework.integration.annotation.MessagingGateway;
 

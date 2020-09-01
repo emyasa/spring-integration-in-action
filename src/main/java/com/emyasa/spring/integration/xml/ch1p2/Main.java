@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("ch1/context-02.xml");
-        HelloService helloService = context.getBean("helloGateway", HelloService.class);
+        GatewayService helloService = context.getBean("helloGateway", GatewayService.class);
         System.out.println(helloService.sayHello("World"));
     }
 
