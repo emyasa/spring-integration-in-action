@@ -33,6 +33,7 @@ public class IntegrationConfig {
         SimpleMessageListenerContainer messageListenerContainer = new SimpleMessageListenerContainer();
         messageListenerContainer.setConnectionFactory(connectionFactory);
         messageListenerContainer.setDestinationName(orderQueueName);
+        messageListenerContainer.setSessionTransacted(true);
         return messageListenerContainer;
     }
 
