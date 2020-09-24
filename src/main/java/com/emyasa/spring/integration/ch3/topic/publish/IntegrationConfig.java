@@ -1,4 +1,4 @@
-package com.emyasa.spring.integration.ch3.pubsub;
+package com.emyasa.spring.integration.ch3.topic.publish;
 
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;

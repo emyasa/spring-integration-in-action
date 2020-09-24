@@ -1,4 +1,4 @@
-package com.emyasa.spring.integration.ch3.pubsub;
+package com.emyasa.spring.integration.ch3.topic.publish;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
