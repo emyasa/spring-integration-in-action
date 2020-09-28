@@ -5,12 +5,18 @@ import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.BridgeTo;
 import org.springframework.integration.channel.PublishSubscribeChannel;
+import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.jms.ChannelPublishingJmsMessageListener;
 import org.springframework.integration.jms.JmsInboundGateway;
+import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.jms.connection.SingleConnectionFactory;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.scheduling.support.PeriodicTrigger;
+
+import java.util.concurrent.TimeUnit;
 
 
 @Configuration
@@ -66,8 +72,20 @@ public class IntegrationConfig {
     }
 
     @Bean
+    @BridgeTo(value = "notificationChannel")
     public MessageChannel pubSubChannel() {
         return new PublishSubscribeChannel(); // Synchronous - SubscribableChannel
     }
 
+    @Bean
+    public MessageChannel notificationChannel() {
+        return new QueueChannel();
+    }
+
+    @Bean(name = PollerMetadata.DEFAULT_POLLER)
+    public PollerMetadata defaultPoller() {
+        PollerMetadata pollerMetadata = new PollerMetadata();
+        pollerMetadata.setTrigger(new PeriodicTrigger(10, TimeUnit.MILLISECONDS));
+        return pollerMetadata;
+    }
 }
