@@ -10,6 +10,9 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.jms.DynamicJmsTemplate;
 import org.springframework.integration.jms.JmsSendingMessageHandler;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
+import org.springframework.jms.support.converter.MessageConverter;
+import org.springframework.jms.support.converter.MessageType;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
@@ -34,8 +37,20 @@ public class IntegrationConfig {
     public MessageHandler jmsOutboundAdapter() {
         JmsTemplate jmsTemplate = new DynamicJmsTemplate();
         jmsTemplate.setConnectionFactory(connectionFactory);
+        jmsTemplate.setMessageConverter(jacksonJmsMessageConverter());
+
         JmsSendingMessageHandler messageHandler = new JmsSendingMessageHandler(jmsTemplate);
         messageHandler.setDestination(new ActiveMQTopic(topic)); // create a physical topic in ActiveMQ
         return messageHandler;
     }
+
+    @Bean // Serialize message content to json using TextMessage
+    public MessageConverter jacksonJmsMessageConverter() {
+        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+        converter.setTargetType(MessageType.TEXT);
+        converter.setTypeIdPropertyName("_type");
+
+        return converter;
+    }
+
 }
