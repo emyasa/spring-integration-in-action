@@ -16,10 +16,14 @@ public class IntegrationTest {
     private AsynchronousService asynchronousService;
 
     @Test
-    public void sendAsynchronously() {
+    public void sendAsynchronously() throws InterruptedException {
         long startTime = System.currentTimeMillis();
         asynchronousService.sendMessageAsynchronously("Hello word");
         System.out.println("took: " + (System.currentTimeMillis() - startTime) + " ms");
+
+        Thread.sleep(10000); // This delay is necessary to reflect the message being sent to queue
+        // for this integration test, without the delay - the test would finish without being able to deliver
+        // the message to activeMQ
     }
 
 }
