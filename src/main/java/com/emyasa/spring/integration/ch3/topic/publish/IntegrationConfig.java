@@ -7,14 +7,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.channel.PriorityChannel;
+import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.jms.DynamicJmsTemplate;
 import org.springframework.integration.jms.JmsSendingMessageHandler;
+import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
+import org.springframework.scheduling.support.PeriodicTrigger;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.jms.ConnectionFactory;
 
@@ -44,12 +50,11 @@ public class IntegrationConfig {
         return messageHandler;
     }
 
-    @Bean // Serialize message content to json using TextMessage
+    @Bean
     public MessageConverter jacksonJmsMessageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
         converter.setTypeIdPropertyName("_type");
-
         return converter;
     }
 

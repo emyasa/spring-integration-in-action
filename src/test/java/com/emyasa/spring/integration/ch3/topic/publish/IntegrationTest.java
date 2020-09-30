@@ -20,4 +20,14 @@ public class IntegrationTest {
         pubSubService.sendTopic("send to all subs");
     }
 
+    @Test
+    public void submitReservation() throws InterruptedException {
+        pubSubService.submitReservation("vip-1", true);
+        pubSubService.submitReservation("commoner", false);
+        pubSubService.submitReservation("vip-2", true);
+        pubSubService.submitReservation("commoner-2", false);
+        pubSubService.submitReservation("commoner-3", false);
+        pubSubService.submitReservation("vip-3", true);
+    }
+
 }
